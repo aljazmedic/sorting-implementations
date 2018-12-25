@@ -1,13 +1,15 @@
 import matplotlib.pyplot as plt
-import matplotlib.animation as animation
 import numpy as np
-import time
 
 
+N = 100
 ch1 = None
 visualize = True
+counter = 0
+ignore = N/2
+
 def main():
-	arr = np.arange(1, 100, 1)
+	arr = np.arange(1, N, 1)
 	np.random.shuffle(arr)
 	if visualize:
 		global ch1
@@ -18,7 +20,9 @@ def main():
 		plt.show()
 
 	def updatePlt(A, pivot, border, start_end):
-		if not visualize:
+		global ignore, counter
+		counter +=1
+		if not visualize or counter % ignore != 0:
 			return
 		global ch1
 		ch1.remove()
@@ -69,7 +73,9 @@ def main():
 		quick_sort2(T, 0, len(T)-1, compare)
 		return T
 
-	arr3 = quick_sort(arr, lambda x, y : x<y)
+
+
+	arr3 = quick_sort(arr, lambda x, y : x>y)
 
 if __name__ == '__main__':
 	main()
