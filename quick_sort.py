@@ -1,13 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
-
+import matplotlib
 
 N = 100
-ch1 = None
-visualize = True
-counter = 0
 ignore = N/2
+visualize = True
 
+
+
+ch1 = None
+counter = 0
 def main():
 	arr = np.arange(1, N, 1)
 	np.random.shuffle(arr)
@@ -19,18 +21,25 @@ def main():
 		plt.ion()
 		plt.show()
 
-	def updatePlt(A, pivot, border, start_end):
+	def updatePlt(A, pivot=None, border=None, start_end=None, base_sorted=False, force=False):
 		global ignore, counter
 		counter +=1
-		if not visualize or counter % ignore != 0:
+		if (not visualize or counter % ignore != 0) and not force:
 			return
 		global ch1
 		ch1.remove()
-		ch1 = ax.bar(np.arange(len(A)), A, 1, color='grey')
-		ch1[start_end[0]].set_color('g')
-		ch1[start_end[1]].set_color('g')
-		ch1[pivot].set_color('r')
-		ch1[border].set_color('b')
+		colr = 'grey' if not base_sorted else 'green'
+		ch1 = ax.bar(np.arange(len(A)), A, 1, color=colr)
+		if start_end:
+			for i in range(start_end[0]):
+				ch1[i].set_color('green')
+			for i in range(start_end[0], start_end[1]):
+				ch1[i].set_color('SkyBlue')
+		#ch1[start_end[1]].set_color('g')
+		if pivot:
+			ch1[pivot].set_color('r')
+		if border:
+			ch1[border].set_color('b')
 		#ax.set_xticks(index + bar_width / 2)
 
 		fig.canvas.draw()
@@ -71,11 +80,12 @@ def main():
 	def quick_sort(A, compare=lambda x, y : x<y):
 		T = A[:]
 		quick_sort2(T, 0, len(T)-1, compare)
+		updatePlt(A, base_sorted=True, force=True)
 		return T
 
-
-
-	arr3 = quick_sort(arr, lambda x, y : x>y)
+	arr2 = quick_sort(arr)
+	with matplotlib.rc_context(rc={'interactive': False}):
+		plt.show()
 
 if __name__ == '__main__':
 	main()

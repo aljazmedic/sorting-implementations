@@ -1,3 +1,18 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib
+
+N = 100
+ignore = N/2
+visualize = True
+
+
+
+ch1 = None
+counter = 0
+def main():
+	pass
+
 class Node:
 	def __init__(self, v, compare_=lambda x, y : x<y):
 		self.value = v
