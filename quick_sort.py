@@ -1,17 +1,18 @@
 import matplotlib.pyplot as plt
-import numpy as np
 import matplotlib
+import numpy as np
 
 N = 100
 ignore = N/2
 visualize = True
+comparison = True
 
 
 
 ch1 = None
 counter = 0
 def main():
-	arr = np.arange(1, N, 1)
+	arr = np.arange(1, N+1, 1)
 	np.random.shuffle(arr)
 	if visualize:
 		global ch1
@@ -24,7 +25,7 @@ def main():
 	def updatePlt(A, pivot=None, border=None, start_end=None, base_sorted=False, force=False):
 		global ignore, counter
 		counter +=1
-		if (not visualize or counter % ignore != 0) and not force:
+		if (not visualize or counter % ignore != 0) and (not force or comparison):
 			return
 		global ch1
 		ch1.remove()
@@ -80,7 +81,10 @@ def main():
 	def quick_sort(A, compare=lambda x, y : x<y):
 		T = A[:]
 		quick_sort2(T, 0, len(T)-1, compare)
+		global comparison
+		comparison = False
 		updatePlt(A, base_sorted=True, force=True)
+		comparison = True
 		return T
 
 	arr2 = quick_sort(arr)
