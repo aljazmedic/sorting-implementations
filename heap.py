@@ -12,7 +12,7 @@ class Heap:
 		self.__upcheck(self.length)
 
 	def deque(self):
-		self.__swap(1, 0) #first and last
+		self.__swap(0, -1) #first and last
 		ret = self.array.pop()
 		self.length -= 1
 		self.__downcheck(1)
@@ -21,6 +21,10 @@ class Heap:
 	def __swap(self, a,b):
 		if a == b:
 			return
+		if a <= 0:
+			a+=1
+		if b <= 0:
+			b+=1
 		self.array[b], self.array[a] = self.array[a], self.array[b]
 
 	def __upcheck(self, index):
@@ -40,7 +44,13 @@ class Heap:
 		self.__swap(largest, i)
 		self.__downcheck(largest)
 
+	def __str__(self):
+		return str(self.array)
+
 if __name__ == '__main__':
 	h = Heap()
 	h.enque(1)
+	h.enque(9)
+	h.enque(4)
+	h.enque(5)
 	print(h)
